@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-//　router
-import 'package:sample_app/router.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required this.title});
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,37 +24,30 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
+                context.push('/tab');
+              },
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 24),
+                minimumSize: const Size(300, 100),
+              ),
+              
+              child: Text('タブ画面へ'),
+            ),
+            const SizedBox(height: 100),
+            ElevatedButton(
+              onPressed: () {
                 context.push('/mypage');
               },
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 24),
+                minimumSize: const Size(300, 100),
+              ),
               child: Text('マイページへ'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                context.push('/test');
-              },
-              child: Text('テストページへ'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.push('/about');
-              },
-              child: Text('アバウトページへ'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.push('/settings');
-              },
-              child: Text('設定ページへ'),
-            ),
+            const SizedBox(height: 100),
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: (){
-      //     ref
-      //   }
-
-      // ),
     );
   }
 }
