@@ -18,9 +18,7 @@ class _TestPageState extends State<TestPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-          ],
+          children: <Widget>[const Text('テストのページです')],
         ),
       ),
     );
@@ -45,9 +43,7 @@ class _AboutPagePageState extends State<AboutPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-          ],
+          children: <Widget>[const Text('アバウトのページです')],
         ),
       ),
     );
@@ -72,9 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-          ],
+          children: <Widget>[const Text('設定のページです')],
         ),
       ),
     );
