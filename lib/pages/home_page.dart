@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
   final String title;
@@ -30,7 +29,6 @@ class _HomePageState extends State<HomePage> {
                 textStyle: const TextStyle(fontSize: 24),
                 minimumSize: const Size(300, 100),
               ),
-              
               child: Text('タブ画面へ'),
             ),
             const SizedBox(height: 100),
@@ -45,6 +43,17 @@ class _HomePageState extends State<HomePage> {
               child: Text('マイページへ'),
             ),
             const SizedBox(height: 100),
+            ElevatedButton(
+              onPressed: () {
+                context.push('/test');
+              },
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 24),
+                minimumSize: const Size(300, 100),
+              ),
+              child: Text('動作テストページへ'),
+            ),
+            const SizedBox(height: 50),
           ],
         ),
       ),

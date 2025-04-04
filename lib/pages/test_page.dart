@@ -1,30 +1,55 @@
 //　go_routerの動作確認用
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// Riverpodファイルのインポート
+import 'package:sample_app/providers/csv_providers.dart';
 
-class TestPage extends StatefulWidget {
+class TestPage extends ConsumerStatefulWidget {
   const TestPage({super.key});
 
   @override
-  State<TestPage> createState() => _TestPageState();
+  ConsumerState<TestPage> createState() => _MyPageState();
 }
 
-class _TestPageState extends State<TestPage> {
+class _MyPageState extends ConsumerState<TestPage> {
   @override
   Widget build(BuildContext context) {
+    final listViewItems = ref.watch(makerCsvProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('タイトル'),
+        title: const Text('タイトル'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[const Text('テストのページです')],
+      body: listViewItems.when(
+        data: (listViewItems){
+          return ListView.builder(
+        // indexはヘッダーを除外する
+        itemCount: listViewItems.length -1 ,
+        itemBuilder: (context, index) {
+          final data = listViewItems[index + 1];
+          return ListTile(
+            title: Text(data[1].toString()), 
+              );
+            },
+          );
+        },
+        error: (err, stack) => Center(child: Text('エラー: $err')),
+        loading: () => const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('読み込み中...'),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }
+
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});

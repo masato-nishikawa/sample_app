@@ -6,6 +6,8 @@ import 'package:csv/csv.dart';
 
 // タブのリストになる部分の読み込み
 final mainCsvProvider = FutureProvider<List<List<dynamic>>>((ref) async {
+   // ロードサークルの確認のために1秒待機させる
+  await Future.delayed(const Duration(seconds: 2));
   // アセットにあるcsvを読み込む
   final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
   // 読み込んだcsvをリストに変化する（ヘッダーを含む）
@@ -15,6 +17,7 @@ final mainCsvProvider = FutureProvider<List<List<dynamic>>>((ref) async {
 
 // マイページでメーカーを設定する部分の読み込み
 final makerCsvProvider = FutureProvider<List<List<dynamic>>>((ref) async {
+  await Future.delayed(const Duration(seconds: 2));
   final makerCsv = await rootBundle.loadString('assets/csv/maker_data.csv');
   final makerCsvTable = const CsvToListConverter().convert(makerCsv);
   return makerCsvTable;

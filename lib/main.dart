@@ -30,3 +30,5 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
+
+// REVIEW: csvとshared_preferencesのデータ保持

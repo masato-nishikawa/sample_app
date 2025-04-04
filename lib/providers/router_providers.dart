@@ -5,6 +5,7 @@ import 'package:sample_app/pages/home_page.dart';
 import 'package:sample_app/pages/my_page.dart';
 import 'package:sample_app/pages/tab_page.dart';
 import 'package:sample_app/pages/test_page.dart';
+import 'package:sample_app/pages/add_page.dart';
 
 //　アプリの基本設計として変更しない部分
 final defaultPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
@@ -48,10 +49,24 @@ final addithonalPagesProvider = StateProvider<List<Map<String, dynamic>>>((ref,)
   ];
 });
 
+
+//　アプリの基本設計として変更しない部分
+final addPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
+  return [
+    {
+      'name': 'addName',
+      'path': '/addName',
+      'builder': (context, state) => const AddPageName(),
+    },
+  ];
+});
+
+
 final routerProvider = StateProvider<GoRouter>((ref) {
   final routerPages = [
     ...ref.watch(defaultPagesProvider),
     ...ref.watch(addithonalPagesProvider),
+    ...ref.watch(addPagesProvider),
   ];
 
   return GoRouter(
