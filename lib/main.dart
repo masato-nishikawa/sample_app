@@ -11,6 +11,10 @@ void main() {
   );
 }
 
+// TODO: csvとshared_preferencesのデータ保持
+// TODO: ref watchとreadの使い分け
+
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   @override
@@ -30,5 +34,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-// REVIEW: csvとshared_preferencesのデータ保持

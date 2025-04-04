@@ -50,7 +50,7 @@ final addithonalPagesProvider = StateProvider<List<Map<String, dynamic>>>((ref,)
 });
 
 
-//　アプリの基本設計として変更しない部分
+//　ユーザー情報の入力画面の部分
 final addPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
   return [
     {
@@ -58,10 +58,31 @@ final addPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
       'path': '/addName',
       'builder': (context, state) => const AddPageName(),
     },
+    {
+      'name': 'prefecture',
+      'path': '/prefecture',
+      'builder': (context, state) => const AddPagePrefecture(),
+    },
+    {
+      'name': 'gender',
+      'path': '/gender',
+      'builder': (context, state) => const AddPageGender(),
+    },
+    {
+      'name': 'birthday',
+      'path': '/birthday',
+      'builder': (context, state) => const AddPageBirthday(),
+    },
+    {
+      'name': 'homegelande',
+      'path': '/homegelande',
+      'builder': (context, state) => const AddPageGelande(),
+    },
   ];
 });
 
-
+// TODO: go_routerでmypageの中に追加画面を入れ子する
+// GoRouterの変数として返しているため上で入れ子にしても反映されない
 final routerProvider = StateProvider<GoRouter>((ref) {
   final routerPages = [
     ...ref.watch(defaultPagesProvider),

@@ -8,10 +8,11 @@ class TestPage extends ConsumerStatefulWidget {
   const TestPage({super.key});
 
   @override
-  ConsumerState<TestPage> createState() => _MyPageState();
+  ConsumerState<TestPage> createState() => _TestPageState();
 }
 
-class _MyPageState extends ConsumerState<TestPage> {
+class _TestPageState extends ConsumerState<TestPage> {
+
   @override
   Widget build(BuildContext context) {
     final listViewItems = ref.watch(makerCsvProvider);
@@ -19,7 +20,7 @@ class _MyPageState extends ConsumerState<TestPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('タイトル'),
+        title: const Text('CSVからリストの表示'),
       ),
       body: listViewItems.when(
         data: (listViewItems){

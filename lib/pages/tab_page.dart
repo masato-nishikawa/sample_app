@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Riverpodファイルのインポート
 import 'package:sample_app/providers/tab_providers.dart';
 
+// TODO: タブの幅を統一する
+
 class TabPage extends ConsumerStatefulWidget {
   const TabPage({super.key});
 
