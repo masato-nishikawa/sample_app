@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sample_app/providers/csv_providers.dart';
 
 // ニックネームの入力画面
 class AddPageName extends StatefulWidget {
@@ -342,51 +344,121 @@ class _AddPageGelandeState extends State<AddPageGelande> {
   }
 }
 
-// TODO: メーカー、モデル名、長さを入力できるようにする
+
 // スノーボード入力画面
-class AddPageMyBoard extends StatefulWidget {
+class AddPageMyBoard extends ConsumerStatefulWidget {
   const AddPageMyBoard({super.key});
 
   @override
-  State<AddPageMyBoard> createState() => _AddPageMyBoardState();
+  ConsumerState<AddPageMyBoard> createState() => _AddPageMyBoardState();
 }
 
-class _AddPageMyBoardState extends State<AddPageMyBoard> {
-  final TextEditingController _controller = TextEditingController();
+class _AddPageMyBoardState extends ConsumerState<AddPageMyBoard> {
+  String? selectedMaker; 
+  final TextEditingController modelName = TextEditingController();
+  int? selectedSize;
+  List<List<String>> boardList = [];
+  
 
   @override
   void dispose() {
-    _controller.dispose(); // メモリ解放
+    modelName.dispose(); // メモリ解放
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final makerData = ref.watch(makerCsvProvider);
+    // TODO: 省略された高度な書き方なので要確認
+    final sizeList = List.generate(190 - 120 + 1, (i) => 120 + i);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('マイボードの入力画面'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                hintText: 'マイボードを入力してください。',
-                border: OutlineInputBorder(),
-              ),
-              autofocus: true,
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              child: const Text('保存'),
-              onPressed: () {
-                context.pop(_controller.text); // 戻り値を渡す
-              },
-            ),
-          ],
+        child: makerData.when(
+          data: (data) {
+            final boardList = data['board']!
+                .map((e) => e.toString())
+                .toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'ボードメーカーを選択',
+                    border: OutlineInputBorder(),
+                  ),
+                  value: selectedMaker,
+                  items: boardList.map((maker) {
+                    return DropdownMenuItem<String>(
+                      value: maker,
+                      child: Text(maker),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedMaker = value;
+                    });
+                  },
+                ),
+
+                const SizedBox(height: 16.0),
+
+                TextField(
+                  controller: modelName,
+                  decoration: const InputDecoration(
+                    hintText: 'モデル名を入力してくだい。',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+
+                const SizedBox(height: 16.0),
+
+                DropdownButtonFormField<int>(
+                  decoration: const InputDecoration(
+                    labelText: 'サイズを選択',
+                    border: OutlineInputBorder(),
+                  ),
+                  value: selectedSize,
+                  items: sizeList.map((size) {
+                    return DropdownMenuItem<int>(
+                      value: size,
+                      child: Text(size.toString()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedSize = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16.0),
+
+                ElevatedButton(
+                  onPressed: (
+                    // 3項目が未入力でないことの確認
+                    selectedMaker != null &&
+                    selectedSize != null &&
+                    modelName.text.isNotEmpty)
+                      ? () {
+                        // リストのリストでString型にして返す
+                        final result = [[
+                          selectedMaker!, modelName.text, selectedSize.toString()
+                        ]];
+                          context.pop(result);
+                        }
+                      : null,
+                  child: const Text('保存'),
+                ),
+                const Text('*3つ全ての項目を入力してください。'),
+              ],
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('エラー: $err')),
         ),
       ),
     );

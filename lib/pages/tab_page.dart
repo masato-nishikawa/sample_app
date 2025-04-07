@@ -15,28 +15,29 @@ class TabPage extends ConsumerStatefulWidget {
 class _TabPageState extends ConsumerState<TabPage> {
   @override
   Widget build(BuildContext context) {
-    final tabs = ref.watch(tabsProvider);
+    final tabs = ref.read(tabsProvider);
+    final butterTab = ref.read(butterProvider);
 
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text('タイトル'),
-        ),
-        //　Materialで囲んでなくても大丈夫
-        bottomNavigationBar: TabBar(
-          //　.mapで開いてタブの中にぶち込んでいる
-          tabs: tabs.map((tab) {
-            return Tab(
-              // AIで作ったアイコンの画像を入れる
-              icon: Image.asset(tab[1], width: 50, height: 50),
-              // スノーボードのジャンル名
-              text: tab[0],
-            );
-          }).toList(),
-          //　タブの数が多いためスクロールをする
-          isScrollable: true,
+          title: const Text('カテゴリ別の一覧'),
+          //　Materialで囲んでなくても大丈夫
+          bottom: TabBar(
+            //　.mapで開いてタブの中にぶち込んでいる
+            tabs: tabs.map((tab) {
+              return Tab(
+                // AIで作ったアイコンの画像を入れる
+                icon: Image.asset(tab[1], width: 80, height: 50),
+                // スノーボードのジャンル名
+                text: tab[0],
+              );
+            }).toList(),
+            //　タブの数が多いためスクロールをする
+            isScrollable: true,
+          ),
         ),
         // TODO: bodyではリストビューをしていく
         body: TabBarView(

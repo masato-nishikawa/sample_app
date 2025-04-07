@@ -166,7 +166,7 @@ class GelandeNotifier extends AsyncNotifier<String> {
 // AsyncNotifierProviderでUserNotifierを公開
 final gelandeProvider = AsyncNotifierProvider<GelandeNotifier, String>(() => GelandeNotifier());
 
-// TODO: マイボードをRiverpodとsharedprefernceで管理
+
 // マイボードを非同期で管理するNotifierでJSONの処理が追加されたもの
 class MyBoardNotifier extends AsyncNotifier<List<List<String>>> {
   @override
@@ -188,14 +188,24 @@ class MyBoardNotifier extends AsyncNotifier<List<List<String>>> {
   }
 
   // マイボードを更新するメソッド
-  Future<void> updateMyBoard(List<List<String>> newState) async {
-    final prefs = await SharedPreferences.getInstance();
-    //JSONに変換する処理は必ず入る
-    final jsonStrig = jsonEncode(newState);
-    await prefs.setString('myBoard', jsonStrig);
-    // 状態を新しい値に更新
-    state = AsyncValue.data(newState);
+Future<void> updateMyBoard(List<List<String>> newItems) async {
+  final prefs = await SharedPreferences.getInstance();
+  const key = 'myBoard';
+  // 既存データを読み込む（なければ空リスト）
+  final jsonString = prefs.getString(key);
+  List<List<String>> current = [];
+  if (jsonString != null) {
+    final decoded = jsonDecode(jsonString) as List<dynamic>;
+    current = decoded.map<List<String>>((row) => List<String>.from(row)).toList();
   }
+  // 追加
+  final updated = [...current, ...newItems];
+  // 保存
+  final updatedJson = jsonEncode(updated);
+  await prefs.setString(key, updatedJson);
+  // 状態を更新
+  state = AsyncValue.data(updated);
+}
 
   // マイボードを更新するメソッド
   Future<void> resetMyBoard() async {

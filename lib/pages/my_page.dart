@@ -23,6 +23,7 @@ class _MyPageState extends ConsumerState<MyPage> {
     final genderAsync = ref.watch(genderProvider);
     final birthdayAsync = ref.watch(birthdayProvider);
     final gelandeAsync = ref.watch(gelandeProvider);
+    final myBoardAsync = ref.watch(myBoardProvider);
 
 
 // TODO: ボード追加についてはリストで返す
@@ -40,6 +41,7 @@ class _MyPageState extends ConsumerState<MyPage> {
                 ref.read(genderProvider.notifier).resetGender();
                 ref.read(birthdayProvider.notifier).resetBirthday();
                 ref.read(gelandeProvider.notifier).resetGelande();
+                ref.read(myBoardProvider.notifier).resetMyBoard();
               },
             ),
           ],
@@ -241,9 +243,9 @@ class _MyPageState extends ConsumerState<MyPage> {
                     icon: const Icon(Icons.add),
                     onPressed: () async {
                       // 名前編集画面へ遷移し、結果を受け取る
-                      final result = await context.push<String>('/mypage/my_board');
+                      final result = await context.push<List<List<String>>>('/mypage/my_board');
                       if (result != null ) {
-                        await ref.read(gelandeProvider.notifier).updateGelande(result);
+                        await ref.read(myBoardProvider.notifier).updateMyBoard(result);
                       }
                     },
                   ),
@@ -251,25 +253,24 @@ class _MyPageState extends ConsumerState<MyPage> {
               ),
             ),
             // 非同期状態に基づくホームゲレンデの表示
-            gelandeAsync.when(
-              data: (value) => Align(
-                alignment: Alignment.center,
-                child: Text(
-                  value.isEmpty ? '未設定' : value,
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-              ),
+            myBoardAsync.when(
+              data: (value) => value.isEmpty
+                  ? const Center(child: Text('未設定', style: TextStyle(fontSize: 18.0)))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: value.length,
+                      itemBuilder: (context, index) {
+                        final board = value[index]; // 例: ['BURTON', 'CUSTOM', '158']
+                        final displayText = board.join(' '); // "BURTON CUSTOM 158"
+                        return ListTile(
+                          leading: Text((index + 1).toString()),
+                          title: Text(displayText),
+                        );
+                      },
+                    ),
               loading: () => const CircularProgressIndicator(),
               error: (err, _) => Text('エラーが発生しました: $err'),
-            ),
-
-
-
-
-
-
-
-
+            )
           ],
         ),
       ),
