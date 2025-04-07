@@ -20,11 +20,11 @@ final defaultPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
       'path': '/tab',
       'builder': (context, state) => const TabPage(),
     },
-    {
-      'name': 'mypage',
-      'path': '/mypage',
-      'builder': (context, state) => const MyPage(),
-    },
+    // {
+    //   'name': 'mypage',
+    //   'path': '/mypage',
+    //   'builder': (context, state) => const MyPage(),
+    // },
   ];
 });
 
@@ -49,58 +49,82 @@ final addithonalPagesProvider = StateProvider<List<Map<String, dynamic>>>((ref,)
   ];
 });
 
-
 //　ユーザー情報の入力画面の部分
 final addPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
   return [
     {
       'name': 'addName',
-      'path': '/addName',
+      //　pathの/は消す
+      'path': 'addName',
       'builder': (context, state) => const AddPageName(),
     },
     {
       'name': 'prefecture',
-      'path': '/prefecture',
+      'path': 'prefecture',
       'builder': (context, state) => const AddPagePrefecture(),
     },
     {
       'name': 'gender',
-      'path': '/gender',
+      'path': 'gender',
       'builder': (context, state) => const AddPageGender(),
     },
     {
       'name': 'birthday',
-      'path': '/birthday',
+      'path': 'birthday',
       'builder': (context, state) => const AddPageBirthday(),
     },
     {
       'name': 'homegelande',
-      'path': '/homegelande',
+      'path': 'homegelande',
       'builder': (context, state) => const AddPageGelande(),
+    },
+    {
+      'name': 'my_board',
+      'path': 'my_board',
+      'builder': (context, state) => const AddPageMyBoard(),
     },
   ];
 });
 
-// TODO: go_routerでmypageの中に追加画面を入れ子する
-// GoRouterの変数として返しているため上で入れ子にしても反映されない
+
 final routerProvider = StateProvider<GoRouter>((ref) {
-  final routerPages = [
-    ...ref.watch(defaultPagesProvider),
-    ...ref.watch(addithonalPagesProvider),
-    ...ref.watch(addPagesProvider),
-  ];
+  final defaultPages = ref.watch(defaultPagesProvider);
+  final additionalPages = ref.watch(addithonalPagesProvider);
+  final addPages = ref.watch(addPagesProvider);
 
   return GoRouter(
     debugLogDiagnostics: true,
     initialLocation: '/',
     routes: [
     // ...でリストを展開しているからmap操作が出来ちる
-      ...routerPages.map(
+      ...defaultPages.map(
         (page) => GoRoute(
           name: page['name'] as String,
           path: page['path'] as String,
           builder: page['builder'] as GoRouterWidgetBuilder,
         ),
+      ),
+      ...additionalPages.map(
+        (page) => GoRoute(
+          name: page['name'] as String,
+          path: page['path'] as String,
+          builder: page['builder'] as GoRouterWidgetBuilder,
+        ),
+      ),
+      GoRoute(
+        name: 'mypage',
+        path: '/mypage',
+        builder: (context, state) => const MyPage(),
+        routes: [
+          // addPagesをmypageの子ルートとして展開
+          ...addPages.map(
+            (page) => GoRoute(
+              name: page['name'] as String,
+              path: page['path'] as String,
+              builder: page['builder'] as GoRouterWidgetBuilder,
+            ),
+          ),
+        ],
       ),
     ],
   );

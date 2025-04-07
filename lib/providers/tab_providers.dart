@@ -11,6 +11,6 @@ final tabsProvider = Provider<List<List<String>>>((ref) {
     ['ジブ', 'assets/icons/tab6.png'],
     ['バックカントリー', 'assets/icons/tab7.png'],
     ['メンテナンス', 'assets/icons/tab8.png'],
-    ['マイページ', 'assets/icons/tab9.png'],
+//    ['マイページ', 'assets/icons/tab9.png'],
   ];
 });

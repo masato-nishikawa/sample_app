@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// ユーザー名を非同期で管理するNotifier
+// ユーザー名を非同期で管理するNotifier
 class UserNotifier extends AsyncNotifier<String> {
   @override
   Future<String> build() async {
@@ -14,7 +15,7 @@ class UserNotifier extends AsyncNotifier<String> {
     return prefs.getString(key)!;
   }
 
-  /// ユーザー名を更新するメソッド
+  // ユーザー名を更新するメソッド
   Future<void> updateUsername(String newName) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', newName);
@@ -22,7 +23,7 @@ class UserNotifier extends AsyncNotifier<String> {
     state = AsyncValue.data(newName);
   }
 
-  /// ユーザー名をリセットするメソッド
+  // ユーザー名をリセットするメソッド
   Future<void> resetUsername() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', '');
@@ -34,7 +35,7 @@ class UserNotifier extends AsyncNotifier<String> {
 final userProvider = AsyncNotifierProvider<UserNotifier, String>(() => UserNotifier());
 
 
-/// ユーザー名を非同期で管理するNotifier
+// 都道府県を非同期で管理するNotifier
 class PrefectureNotifier extends AsyncNotifier<String> {
   @override
   Future<String> build() async {
@@ -47,7 +48,7 @@ class PrefectureNotifier extends AsyncNotifier<String> {
     return prefs.getString(key)!;
   }
 
-  /// ユーザー名を更新するメソッド
+  // 都道府県を更新するメソッド
   Future<void> updatePrefecture(String newName) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('prefecture', newName);
@@ -55,7 +56,7 @@ class PrefectureNotifier extends AsyncNotifier<String> {
     state = AsyncValue.data(newName);
   }
 
-  /// ユーザー名をリセットするメソッド
+  // 都道府県をリセットするメソッド
   Future<void> resetPrefecture() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('prefecture', '');
@@ -67,7 +68,7 @@ class PrefectureNotifier extends AsyncNotifier<String> {
 final prefectureProvider = AsyncNotifierProvider<PrefectureNotifier, String>(() => PrefectureNotifier());
 
 
-/// ユーザー名を非同期で管理するNotifier
+// 性別を非同期で管理するNotifier
 class GenderNotifier extends AsyncNotifier<String> {
   @override
   Future<String> build() async {
@@ -80,7 +81,7 @@ class GenderNotifier extends AsyncNotifier<String> {
     return prefs.getString(key)!;
   }
 
-  /// ユーザー名を更新するメソッド
+  // 性別を更新するメソッド
   Future<void> updateGender(String newState) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('gender', newState);
@@ -88,7 +89,7 @@ class GenderNotifier extends AsyncNotifier<String> {
     state = AsyncValue.data(newState);
   }
 
-  /// ユーザー名をリセットするメソッド
+  // 性別をリセットするメソッド
   Future<void> resetGender() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('gender', '');
@@ -100,7 +101,7 @@ class GenderNotifier extends AsyncNotifier<String> {
 final genderProvider = AsyncNotifierProvider<GenderNotifier, String>(() => GenderNotifier());
 
 
-/// ユーザー名を非同期で管理するNotifier
+// 誕生日を非同期で管理するNotifier
 class BirthdayNotifier extends AsyncNotifier<String> {
   @override
   Future<String> build() async {
@@ -113,7 +114,7 @@ class BirthdayNotifier extends AsyncNotifier<String> {
     return prefs.getString(key)!;
   }
 
-  /// ユーザー名を更新するメソッド
+  // 誕生日を更新するメソッド
   Future<void> updateBirthday(String newState) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('birthday', newState);
@@ -121,7 +122,7 @@ class BirthdayNotifier extends AsyncNotifier<String> {
     state = AsyncValue.data(newState);
   }
 
-  /// ユーザー名をリセットするメソッド
+  // 誕生日をリセットするメソッド
   Future<void> resetBirthday() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('birthday', '');
@@ -133,7 +134,7 @@ class BirthdayNotifier extends AsyncNotifier<String> {
 final birthdayProvider = AsyncNotifierProvider<BirthdayNotifier, String>(() => BirthdayNotifier());
 
 
-/// ユーザー名を非同期で管理するNotifier
+// ホームゲレンデを非同期で管理するNotifier
 class GelandeNotifier extends AsyncNotifier<String> {
   @override
   Future<String> build() async {
@@ -146,7 +147,7 @@ class GelandeNotifier extends AsyncNotifier<String> {
     return prefs.getString(key)!;
   }
 
-  /// ユーザー名を更新するメソッド
+  /// ホームゲレンデを更新するメソッド
   Future<void> updateGelande(String newState) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('gelande', newState);
@@ -154,7 +155,7 @@ class GelandeNotifier extends AsyncNotifier<String> {
     state = AsyncValue.data(newState);
   }
 
-  /// ユーザー名をリセットするメソッド
+  /// ホームゲレンデをリセットするメソッド
   Future<void> resetGelande() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('gelande', '');
@@ -165,3 +166,49 @@ class GelandeNotifier extends AsyncNotifier<String> {
 // AsyncNotifierProviderでUserNotifierを公開
 final gelandeProvider = AsyncNotifierProvider<GelandeNotifier, String>(() => GelandeNotifier());
 
+// TODO: マイボードをRiverpodとsharedprefernceで管理
+// マイボードを非同期で管理するNotifierでJSONの処理が追加されたもの
+class MyBoardNotifier extends AsyncNotifier<List<List<String>>> {
+  @override
+  Future<List<List<String>>> build() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'myBoard';
+    // キーが存在しなければ初期値を設定（空の2次元リスト）
+    if (!prefs.containsKey(key)) {
+      final emptyJson = jsonEncode(<List<String>>[]);
+      await prefs.setString(key, emptyJson);
+    }
+    final jsonString = prefs.getString(key)!;
+    // JSON文字列 → List<List<String>>
+    final List<dynamic> decoded = jsonDecode(jsonString);
+    final List<List<String>> result = decoded.map<List<String>>(
+      (row) => List<String>.from(row),
+    ).toList();
+    return result;
+  }
+
+  // マイボードを更新するメソッド
+  Future<void> updateMyBoard(List<List<String>> newState) async {
+    final prefs = await SharedPreferences.getInstance();
+    //JSONに変換する処理は必ず入る
+    final jsonStrig = jsonEncode(newState);
+    await prefs.setString('myBoard', jsonStrig);
+    // 状態を新しい値に更新
+    state = AsyncValue.data(newState);
+  }
+
+  // マイボードを更新するメソッド
+  Future<void> resetMyBoard() async {
+    final prefs = await SharedPreferences.getInstance();
+    // 状態管理とprefsの処理の２つがある
+    final emptyData = <List<String>>[];
+    // prefsに入れる処理
+    final emptyJson = jsonEncode(emptyData);
+    await prefs.setString('myBoard', emptyJson);
+    // 状態を新しい値に更新
+    state = AsyncValue.data(emptyData);
+  }
+}
+
+final myBoardProvider =
+    AsyncNotifierProvider<MyBoardNotifier, List<List<String>>>(() => MyBoardNotifier());

@@ -342,5 +342,53 @@ class _AddPageGelandeState extends State<AddPageGelande> {
   }
 }
 
+// TODO: メーカー、モデル名、長さを入力できるようにする
+// スノーボード入力画面
+class AddPageMyBoard extends StatefulWidget {
+  const AddPageMyBoard({super.key});
 
+  @override
+  State<AddPageMyBoard> createState() => _AddPageMyBoardState();
+}
 
+class _AddPageMyBoardState extends State<AddPageMyBoard> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose(); // メモリ解放
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('マイボードの入力画面'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                hintText: 'マイボードを入力してください。',
+                border: OutlineInputBorder(),
+              ),
+              autofocus: true,
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              child: const Text('保存'),
+              onPressed: () {
+                context.pop(_controller.text); // 戻り値を渡す
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

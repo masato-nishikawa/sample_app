@@ -16,9 +16,26 @@ final mainCsvProvider = FutureProvider<List<List<dynamic>>>((ref) async {
 });
 
 // マイページでメーカーを設定する部分の読み込み
-final makerCsvProvider = FutureProvider<List<List<dynamic>>>((ref) async {
+final makerCsvProvider = FutureProvider<Map<String, List<dynamic>>>((ref) async {
   await Future.delayed(const Duration(seconds: 2));
   final makerCsv = await rootBundle.loadString('assets/csv/maker_data.csv');
   final makerCsvTable = const CsvToListConverter().convert(makerCsv);
-  return makerCsvTable;
+  final boardMaker = makerCsvTable
+      .skip(1) // ヘッダーを除く
+      .map((row) => row[1])
+      .toList();
+    final bindingMaker = makerCsvTable
+      .skip(1) // ヘッダーを除く
+      .map((row) => row[2])
+      .toList();
+    final bootsMaker = makerCsvTable
+      .skip(1) // ヘッダーを除く
+      .map((row) => row[3])
+      .toList();
+    return {
+    'board': boardMaker,
+    'binding': bindingMaker,
+    'boots': bootsMaker,
+  };
 });
+

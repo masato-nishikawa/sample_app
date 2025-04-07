@@ -15,6 +15,7 @@ class _TestPageState extends ConsumerState<TestPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 非同期の際には「watch」を使わなくてはならない
     final listViewItems = ref.watch(makerCsvProvider);
 
     return Scaffold(
@@ -24,13 +25,14 @@ class _TestPageState extends ConsumerState<TestPage> {
       ),
       body: listViewItems.when(
         data: (listViewItems){
+          final boardList = listViewItems['board']!;
           return ListView.builder(
         // indexはヘッダーを除外する
-        itemCount: listViewItems.length -1 ,
+        itemCount: boardList.length ,
         itemBuilder: (context, index) {
-          final data = listViewItems[index + 1];
+          final data = boardList[index];
           return ListTile(
-            title: Text(data[1].toString()), 
+            title: Text(data.toString()), 
               );
             },
           );
@@ -43,6 +45,7 @@ class _TestPageState extends ConsumerState<TestPage> {
               CircularProgressIndicator(),
               SizedBox(height: 16),
               Text('読み込み中...'),
+              Text('2秒の待機時間があります。'),
             ],
           ),
         ),
