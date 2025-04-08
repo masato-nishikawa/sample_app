@@ -54,6 +54,16 @@ class _HomePageState extends State<HomePage> {
               child: Text('動作テストページへ'),
             ),
             const SizedBox(height: 50),
+            ElevatedButton(
+              onPressed: () {
+                context.push('/tab/Ollie_180');
+              },
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 24),
+                minimumSize: const Size(300, 100),
+              ),
+              child: Text('トリックページへ'),
+            ),
           ],
         ),
       ),

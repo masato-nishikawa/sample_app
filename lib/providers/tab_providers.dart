@@ -15,39 +15,19 @@ final tabsProvider = Provider<List<List<String>>>((ref) {
   ];
 });
 
-// TODO: クラス化してカテゴリ名で定義が出来るようにしたい
-final flipProvider = FutureProvider<List<List<dynamic>>>((ref) async {
-  final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
-  final mainCsvTable = const CsvToListConverter().convert(mainCsv);
-  final List<List<dynamic>>  flipList = [];
-  for (final row in mainCsvTable) {
-    if (row.length > 1 && row[1] == '弾き系') {
-        flipList.add(row);
+// カテゴリ別にCSVのリストを返すように変更
+final categoryProvider = FutureProvider.family<List<List<dynamic>>, String>(
+  (ref, category) async {
+    final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
+    final mainCsvTable = const CsvToListConverter().convert(mainCsv);
+    final List<List<dynamic>> list = [];
+    // カテゴリ名に一致するのを抜き出す
+    for (final row in mainCsvTable) {
+      if (row.length > 1 && row[1] == category) {
+        list.add(row);
+      }
     }
-  }
-  return flipList;
-});
 
-final butterProvider = FutureProvider<List<List<dynamic>>>((ref) async {
-  final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
-  final mainCsvTable = const CsvToListConverter().convert(mainCsv);
-  final List<List<dynamic>>  butterList = [];
-  for (final row in mainCsvTable) {
-    if (row.length > 1 && row[1] == 'バター系') {
-        butterList.add(row);
-    }
-  }
-  return butterList;
-});
+    return list;
+  });
 
-final carvingProvider = FutureProvider<List<List<dynamic>>>((ref) async {
-  final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
-  final mainCsvTable = const CsvToListConverter().convert(mainCsv);
-  final List<List<dynamic>>  carvingList = [];
-  for (final row in mainCsvTable) {
-    if (row.length > 1 && row[1] == 'カービング') {
-        carvingList.add(row);
-    }
-  }
-  return carvingList;
-});

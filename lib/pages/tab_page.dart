@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 // Riverpodファイルのインポート
 import 'package:sample_app/providers/tab_providers.dart';
 
@@ -16,7 +17,7 @@ class _TabPageState extends ConsumerState<TabPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = ref.read(tabsProvider);
-    final butterTab = ref.read(butterProvider);
+
 
     return DefaultTabController(
       length: tabs.length,
@@ -39,10 +40,42 @@ class _TabPageState extends ConsumerState<TabPage> {
             isScrollable: true,
           ),
         ),
-        // TODO: bodyではリストビューをしていく
+        // TODO: bodyではリストビューで画面遷移を追加していく
         body: TabBarView(
+          // tabsからリストを展開して1つ1つをtabとして動作
           children: tabs.map((tab) {
-            return Center(child: Text('${tab[0]} ページ'));
+            // カテゴリ名を取り出す
+            final category = tab[0];
+            return Consumer(
+              // _は分かりにくのでchildにする
+              builder: (context, ref, child) {
+                final tricsData = ref.watch(categoryProvider(category)); // セミコロン追加
+                return tricsData.when(
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (error, stack) => Center(child: Text('Error: $error')),
+                  data: (data) {
+                    return ListView.builder(
+                      itemCount: data.length, // 誤字修正
+                      itemBuilder: (context, index) {
+                        final row = data[index];
+                        final router = row[3];
+                        return ListTile(
+                          title: Row(
+                            children: [
+                              Text('$index. '),
+                              Text(row[2]),
+                            ],
+                          ),
+                          onTap: () {
+                            context.push('/tab/$router');
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            );
           }).toList(),
         ),
       ),

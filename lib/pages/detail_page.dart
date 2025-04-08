@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+  final String trickName ;
+  
+  const DetailPage({super.key, required this.trickName});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -18,7 +20,7 @@ class _DetailPageState extends State<DetailPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[const Text('詳細のページです')],
+          children: <Widget>[Text(widget.trickName)],
         ),
       ),
     );

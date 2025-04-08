@@ -17,20 +17,34 @@ void main() {
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(routerProvider);
-    return MaterialApp.router(
-      // MaterialApp.routerなので注意
-      title: 'Go Router Sample',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+    final routerAsync = ref.watch(routerProvider);
+    // routerをasyncで作ったので必要
+    return routerAsync.when(
+      data: (router) {
+        return MaterialApp.router(
+          title: 'Go Router Sample',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+            useMaterial3: true,
+          ),
+          routerDelegate: router.routerDelegate,
+          routeInformationParser: router.routeInformationParser,
+          routeInformationProvider: router.routeInformationProvider,
+        );
+      },
+      loading: () => const MaterialApp(
+        home: Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
       ),
-      // 以下３行を追加
-      routerDelegate: router.routerDelegate,
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
+      error: (error, stack) => MaterialApp(
+        home: Scaffold(
+          body: Center(child: Text('エラー: $error')),
+        ),
+      ),
     );
   }
 }

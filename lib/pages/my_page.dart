@@ -4,9 +4,8 @@ import 'package:go_router/go_router.dart';
 // プロバイダーのインポート
 import 'package:sample_app/providers/mypage_providers.dart';
 
-// TODO: 未設定の文字位置がズレる
 
-/// マイページの表示用Widget
+// マイページの表示用Widget
 class MyPage extends ConsumerStatefulWidget {
   const MyPage({super.key});
 
@@ -26,7 +25,6 @@ class _MyPageState extends ConsumerState<MyPage> {
     final myBoardAsync = ref.watch(myBoardProvider);
 
 
-// TODO: ボード追加についてはリストで返す
     return Scaffold(
       appBar: AppBar(
           title: const Text('マイページ'),

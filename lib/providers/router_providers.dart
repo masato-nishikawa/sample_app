@@ -1,11 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart';
 // pageのインポート
 import 'package:sample_app/pages/home_page.dart';
 import 'package:sample_app/pages/my_page.dart';
 import 'package:sample_app/pages/tab_page.dart';
 import 'package:sample_app/pages/test_page.dart';
 import 'package:sample_app/pages/add_page.dart';
+import 'package:sample_app/pages/detail_page.dart';
+// providersのインポート
+//import 'package:sample_app/providers/tab_providers.dart';
 
 //　アプリの基本設計として変更しない部分
 final defaultPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
@@ -15,11 +20,11 @@ final defaultPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
       'path': '/',
       'builder': (context, state) => HomePage(title: 'テストアプリ'),
     },
-    {
-      'name': 'tab',
-      'path': '/tab',
-      'builder': (context, state) => const TabPage(),
-    },
+    // {
+    //   'name': 'tab',
+    //   'path': '/tab',
+    //   'builder': (context, state) => const TabPage(),
+    // },
     // {
     //   'name': 'mypage',
     //   'path': '/mypage',
@@ -86,17 +91,35 @@ final addPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
   ];
 });
 
+// CSVからトリックの一覧を取得
+final tricksPageprovider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
+  final mainCsvTable = const CsvToListConverter().convert(mainCsv);
+  final List<Map<String, dynamic>>  tricksList = [];
+  for (final row in mainCsvTable) {
+    if (row.length > 1 ) {
+      final map = {
+        'name': row[3],
+        'path': row[3],
+        'builder': (context, state) => DetailPage(trickName: row[2]),
+      };
+      tricksList.add(map);
+    }
+  }
+  return tricksList;
+});
 
-final routerProvider = StateProvider<GoRouter>((ref) {
-  final defaultPages = ref.watch(defaultPagesProvider);
-  final additionalPages = ref.watch(addithonalPagesProvider);
-  final addPages = ref.watch(addPagesProvider);
+// routerを統一
+final routerProvider = FutureProvider<GoRouter>((ref) async {
+  final defaultPages = ref.read(defaultPagesProvider);
+  final additionalPages = ref.read(addithonalPagesProvider);
+  final addPages = ref.read(addPagesProvider);
+  final tricksPages = await ref.watch(tricksPageprovider.future);
 
   return GoRouter(
     debugLogDiagnostics: true,
     initialLocation: '/',
     routes: [
-    // ...でリストを展開しているからmap操作が出来ちる
       ...defaultPages.map(
         (page) => GoRoute(
           name: page['name'] as String,
@@ -116,8 +139,21 @@ final routerProvider = StateProvider<GoRouter>((ref) {
         path: '/mypage',
         builder: (context, state) => const MyPage(),
         routes: [
-          // addPagesをmypageの子ルートとして展開
           ...addPages.map(
+            (page) => GoRoute(
+              name: page['name'] as String,
+              path: page['path'] as String,
+              builder: page['builder'] as GoRouterWidgetBuilder,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        name: 'tab',
+        path: '/tab',
+        builder: (context, state) => const TabPage(),
+        routes: [
+          ...tricksPages.map(
             (page) => GoRoute(
               name: page['name'] as String,
               path: page['path'] as String,
