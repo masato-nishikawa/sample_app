@@ -31,3 +31,18 @@ final categoryProvider = FutureProvider.family<List<List<dynamic>>, String>(
     return list;
   });
 
+// カテゴリ別にCSVのリストを返すように変更
+final trickProvider = FutureProvider.family<List<List<dynamic>>, String>(
+  (ref, trick) async {
+    final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
+    final mainCsvTable = const CsvToListConverter().convert(mainCsv);
+    final List<List<dynamic>> list = [];
+    // カテゴリ名に一致するのを抜き出す
+    for (final row in mainCsvTable) {
+      if (row.length > 1 && row[2] == trick) {
+        list.add(row);
+      }
+    }
+
+    return list;
+  });

@@ -1,6 +1,7 @@
 //　go_routerの動作確認用
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 // Riverpodファイルのインポート
 import 'package:sample_app/providers/csv_providers.dart';
 
@@ -54,6 +55,7 @@ class _TestPageState extends ConsumerState<TestPage> {
   }
 }
 
+// TODO: Youtubeのリンクが表示されるようにする
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -70,11 +72,16 @@ class _AboutPagePageState extends State<AboutPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('タイトル'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[const Text('アバウトのページです')],
-        ),
+      body: YoutubePlayer(
+        controller: YoutubePlayerController.fromVideoId(
+          videoId: 'ua54JU7k1Us',
+          params: const YoutubePlayerParams(
+            mute: false,
+            showControls: true,
+            showFullscreenButton: true,
+            playsInline: true,  // ← 追加！
+          )
+        )
       ),
     );
   }

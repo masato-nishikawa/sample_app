@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 // Riverpodファイルのインポート
 import 'package:sample_app/providers/tab_providers.dart';
+import 'package:sample_app/providers/icon_providers.dart';
 
 // TODO: タブの幅を統一する
 
@@ -17,6 +18,7 @@ class _TabPageState extends ConsumerState<TabPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = ref.read(tabsProvider);
+    final icons = ref.read(iconsProvider);
 
 
     return DefaultTabController(
@@ -59,11 +61,14 @@ class _TabPageState extends ConsumerState<TabPage> {
                       itemBuilder: (context, index) {
                         final row = data[index];
                         final router = row[3];
+                        final link = icons.firstWhere((item) => item[0] == row[4])[1];
                         return ListTile(
                           title: Row(
                             children: [
                               Text('$index. '),
                               Text(row[2]),
+                              const Spacer(),
+                              Image.asset(link, width: 30, height: 30),
                             ],
                           ),
                           onTap: () {

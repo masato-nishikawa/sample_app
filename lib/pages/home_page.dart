@@ -45,25 +45,18 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 100),
             ElevatedButton(
               onPressed: () {
-                context.push('/test');
+                context.push('/about');
               },
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 24),
                 minimumSize: const Size(300, 100),
+                backgroundColor: Colors.lightBlue,
               ),
               child: Text('動作テストページへ'),
             ),
+            const Text('※Youtube再生のテスト中'),
             const SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () {
-                context.push('/tab/Ollie_180');
-              },
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 24),
-                minimumSize: const Size(300, 100),
-              ),
-              child: Text('トリックページへ'),
-            ),
+
           ],
         ),
       ),

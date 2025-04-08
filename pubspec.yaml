@@ -16,7 +16,7 @@ dependencies:
   freezed_annotation:
 
   csv: ^5.0.0
-  youtube_player_iframe: ^5.1.4
+  youtube_player_iframe: 
   url_launcher: ^6.3.0
   flutter_launcher_icons: ^0.13.1
   shared_preferences: ^2.0.2
