@@ -28,7 +28,6 @@ final categoryProvider = FutureProvider.family<List<List<dynamic>>, String>(
         list.add(row);
       }
     }
-
     return list;
   });
 
@@ -44,7 +43,6 @@ final trickProvider = FutureProvider.family<List<List<dynamic>>, String>(
         list.add(row);
       }
     }
-
     return list;
   });
 

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// 少ないのでアセットでまとめても良いかも
 
 final iconsProvider = Provider<List<List<dynamic>>>((ref) {
   return [

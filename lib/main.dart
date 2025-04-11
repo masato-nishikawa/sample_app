@@ -51,5 +51,6 @@ class MyApp extends ConsumerWidget {
 // TODO: これからやるべき事
 // FIXME: 今は動いているけど本当は直したい
 // HACK: 一時的な回避・ダーティな実装
+
 // NOTE: 注意点や補足情報
 // BUG: 確認済みバグや再現手順など

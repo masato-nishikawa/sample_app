@@ -27,6 +27,7 @@ class _AboutPagePageState extends State<AboutPage> {
           aspectRatio: 16 / 9,
           child: YoutubePlayer(
             controller: YoutubePlayerController.fromVideoId(
+              // 最初に投稿されてYoutube動画
               videoId: 'jNQXAC9IVRw',
               params: const YoutubePlayerParams(
                 mute: false,

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 // プロバイダーのインポート
 import 'package:sample_app/providers/mypage_providers.dart';
 
-// TODO: 各項目のウィジェット化で可読性を上げる
+// TODO: paddingで作られた各項目のウィジェット化で可読性を上げる
 
 // マイページの表示用Widget
 class MyPage extends ConsumerStatefulWidget {
@@ -80,6 +80,7 @@ class _MyPageState extends ConsumerState<MyPage> {
               data: (value) => Align(
                 alignment: Alignment.center,
                 child: Text(
+                  // ?は空文字だったらの意
                   value.isEmpty ? '未設定' : value,
                   style: const TextStyle(fontSize: 18.0),
                 ),

@@ -57,6 +57,7 @@ class _TabPageState extends ConsumerState<TabPage> {
                     return ListView.builder(
                       itemCount: data.length, // 誤字修正
                       itemBuilder: (context, index) {
+                        // 入れ替えて可読性を向上させる
                         final row = data[index];
                         final router = row[3];
                         final link = icons.firstWhere((item) => item[0] == row[4])[1];
@@ -67,12 +68,14 @@ class _TabPageState extends ConsumerState<TabPage> {
                           title: Row(
                             children: [
                               Text('$index. '),
-                              Text(row[2]),
+                              Text(trick),
                               const Spacer(),
                               // チェックボックスは初期値をfalseにすることでタップされたら作成
                               Checkbox(
+                                // ??はnullセーフで合体演算子
                                 value: isChecked.value ?? false,
                                 onChanged: (bool? value) {
+                                // TODO: readなのにnotifierで値が変えられる？
                                   ref.read(checkboxProvider(trick).notifier).updateCheckbox(value ?? false);
                                 },
                               ),

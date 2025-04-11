@@ -20,16 +20,7 @@ final defaultPagesProvider = Provider<List<Map<String, dynamic>>>((ref) {
       'path': '/',
       'builder': (context, state) => HomePage(title: 'テストアプリ'),
     },
-    // {
-    //   'name': 'tab',
-    //   'path': '/tab',
-    //   'builder': (context, state) => const TabPage(),
-    // },
-    // {
-    //   'name': 'mypage',
-    //   'path': '/mypage',
-    //   'builder': (context, state) => const MyPage(),
-    // },
+    // タブとホームは下で統一
   ];
 });
 
@@ -134,6 +125,7 @@ final routerProvider = FutureProvider<GoRouter>((ref) async {
           builder: page['builder'] as GoRouterWidgetBuilder,
         ),
       ),
+      // 入れ子化したいのでこっちで直接書くがよく出来そう
       GoRoute(
         name: 'mypage',
         path: '/mypage',

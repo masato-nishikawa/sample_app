@@ -124,6 +124,7 @@ class TrickFlowSection extends ConsumerWidget {
         return ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
+          // 単純にリストとして表示しスクロールはしない
           physics: const NeverScrollableScrollPhysics(),
           itemCount: data.length,
           itemBuilder: (context, index) {

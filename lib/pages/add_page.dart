@@ -79,14 +79,17 @@ class _AddPagePrefectureState extends State<AddPagePrefecture> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // ドロップダウンの作成
             DropdownButtonFormField<Prefectures>(
               value: _selectedPrefecture,
+              // 都道府県の値を日本語の方で表示する
               items: Prefectures.values.map((Prefectures prefecture) {
                 return DropdownMenuItem<Prefectures>(
                   value: prefecture,
                   child: Text(prefecture.text),
                 );
               }).toList(),
+              // 画面を再描画して選んだ都道府県の確認
               onChanged: (Prefectures? newValue) {
                 setState(() {
                   _selectedPrefecture = newValue;
