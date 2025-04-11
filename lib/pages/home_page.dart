@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
               child: Text('マイページへ'),
             ),
             const SizedBox(height: 100),
+            // 個別で確認したい画面がある場合に使う
             ElevatedButton(
               onPressed: () {
                 context.push('/about');

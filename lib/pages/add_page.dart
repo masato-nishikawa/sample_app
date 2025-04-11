@@ -359,7 +359,7 @@ class _AddPageMyBoardState extends ConsumerState<AddPageMyBoard> {
   int? selectedSize;
   List<List<String>> boardList = [];
   
-
+  // TOOD: 必要性の理解
   @override
   void dispose() {
     modelName.dispose(); // メモリ解放

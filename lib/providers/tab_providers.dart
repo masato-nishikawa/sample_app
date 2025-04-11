@@ -48,34 +48,37 @@ final trickProvider = FutureProvider.family<List<List<dynamic>>, String>(
     return list;
   });
 
-class CheckboxNotifier extends AsyncNotifier{
+
+class CheckboxNotifier extends FamilyAsyncNotifier<bool, String> {
+  // build内で値を入れたい時はlateをつける
+  late final String trick;
 
   @override
-  Future<String> build() async {
-    final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
-    final mainCsvTable = const CsvToListConverter().convert(mainCsv);
+  Future<bool> build(String trick) async {
+    // ファミリーパラメータで渡された文字列を内部に保持
+    // プロバイダー内にマップのように個別に状態を持たせたい場合に必要
+    this.trick = trick;
     final prefs = await SharedPreferences.getInstance();
-    for (final row in mainCsvTable){
-      String key = '${row[1]}_chevkbox';
-
-    // キーが存在しなければ初期値として空文字を設定
+    final key = '${trick}_checkbox';
+    // キーが存在しなければ初期値を false に設定
     if (!prefs.containsKey(key)) {
-      await prefs.setString(key, false);
+      await prefs.setBool(key, false);
     }
-    return prefs.getString(key)!;
-    }
+    return prefs.getBool(key) ?? false;
   }
 
-  // チェックボックスを更新するメソッド
-  Future<void> updateUsername(String newName) async {
+  // チェックボックスの状態を更新するメソッド
+  Future<void> updateCheckbox(bool newState) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', newName);
+    final key = '${trick}_checkbox';
+    await prefs.setBool(key, newState);
     // 状態を新しい値に更新
-    state = AsyncValue.data(newName);
+    state = AsyncValue.data(newState);
   }
-
 }
 
 
 // AsyncNotifierProviderでUserNotifierを公開
-final checkboxProvider = AsyncNotifierProvider<CheckboxNotifier, String>(() => CheckboxNotifier());
+final checkboxProvider = AsyncNotifierProvider.family<CheckboxNotifier, bool, String>(
+  () => CheckboxNotifier(),
+);

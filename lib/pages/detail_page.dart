@@ -26,7 +26,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         title: Text(widget.trickName),
         actions: [
           IconButton(
-            icon: Icon(Icons.share),
+            icon: Icon(Icons.home),
             onPressed: () {
               // pushでなくgoにする事で一気にスタックを解除できる
               context.go('/');
@@ -171,7 +171,11 @@ class SettingsSection extends ConsumerWidget {
                     children: [
                       Text(data[index][0].toString()),
                       Text(' : '),
-                      Text(data[index][1].toString()),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(data[index][1].toString())),
+                      ),
                     ],
                   ),
                 ],

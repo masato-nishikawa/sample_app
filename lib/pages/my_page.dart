@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 // プロバイダーのインポート
 import 'package:sample_app/providers/mypage_providers.dart';
 
+// TODO: 各項目のウィジェット化で可読性を上げる
 
 // マイページの表示用Widget
 class MyPage extends ConsumerStatefulWidget {

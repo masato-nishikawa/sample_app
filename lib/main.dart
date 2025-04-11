@@ -11,7 +11,6 @@ void main() {
   );
 }
 
-// TODO: shared_preferencesでチェックボックス機能の実装
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -28,6 +27,7 @@ class MyApp extends ConsumerWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
             useMaterial3: true,
           ),
+          // ルーティングの情報をデバックコンソールに提供してくれる
           routerDelegate: router.routerDelegate,
           routeInformationParser: router.routeInformationParser,
           routeInformationProvider: router.routeInformationProvider,
@@ -46,3 +46,10 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
+
+
+// TODO: これからやるべき事
+// FIXME: 今は動いているけど本当は直したい
+// HACK: 一時的な回避・ダーティな実装
+// NOTE: 注意点や補足情報
+// BUG: 確認済みバグや再現手順など

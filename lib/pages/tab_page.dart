@@ -60,12 +60,22 @@ class _TabPageState extends ConsumerState<TabPage> {
                         final row = data[index];
                         final router = row[3];
                         final link = icons.firstWhere((item) => item[0] == row[4])[1];
+                        // トリックのチェックボックス管理用
+                        final trick = row[2];
+                        final isChecked = ref.watch(checkboxProvider(trick));
                         return ListTile(
                           title: Row(
                             children: [
                               Text('$index. '),
                               Text(row[2]),
                               const Spacer(),
+                              // チェックボックスは初期値をfalseにすることでタップされたら作成
+                              Checkbox(
+                                value: isChecked.value ?? false,
+                                onChanged: (bool? value) {
+                                  ref.read(checkboxProvider(trick).notifier).updateCheckbox(value ?? false);
+                                },
+                              ),
                               Image.asset(link, width: 30, height: 30),
                             ],
                           ),

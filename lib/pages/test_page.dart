@@ -27,7 +27,7 @@ class _AboutPagePageState extends State<AboutPage> {
           aspectRatio: 16 / 9,
           child: YoutubePlayer(
             controller: YoutubePlayerController.fromVideoId(
-              videoId: 'dQw4w9WgXcQ',
+              videoId: 'jNQXAC9IVRw',
               params: const YoutubePlayerParams(
                 mute: false,
                 showControls: true,
@@ -42,6 +42,7 @@ class _AboutPagePageState extends State<AboutPage> {
   }
 }
 
+// アプリ上のルーティングから削除中
 class TestPage extends ConsumerStatefulWidget {
   const TestPage({super.key});
 
@@ -92,6 +93,7 @@ class _TestPageState extends ConsumerState<TestPage> {
   }
 }
 
+// 何にも使用していない
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
