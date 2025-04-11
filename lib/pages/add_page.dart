@@ -369,7 +369,6 @@ class _AddPageMyBoardState extends ConsumerState<AddPageMyBoard> {
   @override
   Widget build(BuildContext context) {
     final makerData = ref.watch(makerCsvProvider);
-    // TODO: 省略された高度な書き方なので要確認
     final sizeList = List.generate(190 - 120 + 1, (i) => 120 + i);
 
     return Scaffold(

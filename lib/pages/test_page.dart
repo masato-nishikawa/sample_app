@@ -5,6 +5,43 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 // Riverpodファイルのインポート
 import 'package:sample_app/providers/csv_providers.dart';
 
+// TODO: Youtubeのリンクが表示されるようにする(実機動作確認済み)
+
+class AboutPage extends StatefulWidget {
+  const AboutPage({super.key});
+
+  @override
+  State<AboutPage> createState() => _AboutPagePageState();
+}
+
+class _AboutPagePageState extends State<AboutPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text('タイトル'),
+      ),
+      body: Center(
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: YoutubePlayer(
+            controller: YoutubePlayerController.fromVideoId(
+              videoId: 'dQw4w9WgXcQ',
+              params: const YoutubePlayerParams(
+                mute: false,
+                showControls: true,
+                showFullscreenButton: true,
+                playsInline: true,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class TestPage extends ConsumerStatefulWidget {
   const TestPage({super.key});
 
@@ -51,38 +88,6 @@ class _TestPageState extends ConsumerState<TestPage> {
           ),
         ),
       )
-    );
-  }
-}
-
-// TODO: Youtubeのリンクが表示されるようにする
-
-class AboutPage extends StatefulWidget {
-  const AboutPage({super.key});
-
-  @override
-  State<AboutPage> createState() => _AboutPagePageState();
-}
-
-class _AboutPagePageState extends State<AboutPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('タイトル'),
-      ),
-      body: YoutubePlayer(
-        controller: YoutubePlayerController.fromVideoId(
-          videoId: 'ua54JU7k1Us',
-          params: const YoutubePlayerParams(
-            mute: false,
-            showControls: true,
-            showFullscreenButton: true,
-            playsInline: true,  // ← 追加！
-          )
-        )
-      ),
     );
   }
 }

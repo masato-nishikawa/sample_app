@@ -55,8 +55,8 @@ class _HomePageState extends State<HomePage> {
               child: Text('動作テストページへ'),
             ),
             const Text('※Youtube再生のテスト中'),
+            const Text('（実機での動作は確認）'),
             const SizedBox(height: 50),
-
           ],
         ),
       ),

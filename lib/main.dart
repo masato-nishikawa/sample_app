@@ -11,9 +11,7 @@ void main() {
   );
 }
 
-// TODO: csvとshared_preferencesのデータ保持
-// TODO: ref watchとreadの使い分け
-// TOTO: チェックボックス機能の実装
+// TODO: shared_preferencesでチェックボックス機能の実装
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});

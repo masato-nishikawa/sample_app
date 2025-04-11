@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sample_app/providers/tab_providers.dart';
 import 'package:sample_app/providers/icon_providers.dart';
 
-// TODO: タブの幅を統一する
 
 class TabPage extends ConsumerStatefulWidget {
   const TabPage({super.key});
@@ -42,7 +41,6 @@ class _TabPageState extends ConsumerState<TabPage> {
             isScrollable: true,
           ),
         ),
-        // TODO: bodyではリストビューで画面遷移を追加していく
         body: TabBarView(
           // tabsからリストを展開して1つ1つをtabとして動作
           children: tabs.map((tab) {
@@ -87,3 +85,4 @@ class _TabPageState extends ConsumerState<TabPage> {
     );
   }
 }
+

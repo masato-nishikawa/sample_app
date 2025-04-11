@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:csv/csv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final tabsProvider = Provider<List<List<String>>>((ref) {
   return [
@@ -46,3 +47,35 @@ final trickProvider = FutureProvider.family<List<List<dynamic>>, String>(
 
     return list;
   });
+
+class CheckboxNotifier extends AsyncNotifier{
+
+  @override
+  Future<String> build() async {
+    final mainCsv = await rootBundle.loadString('assets/csv/main_data.csv');
+    final mainCsvTable = const CsvToListConverter().convert(mainCsv);
+    final prefs = await SharedPreferences.getInstance();
+    for (final row in mainCsvTable){
+      String key = '${row[1]}_chevkbox';
+
+    // キーが存在しなければ初期値として空文字を設定
+    if (!prefs.containsKey(key)) {
+      await prefs.setString(key, false);
+    }
+    return prefs.getString(key)!;
+    }
+  }
+
+  // チェックボックスを更新するメソッド
+  Future<void> updateUsername(String newName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', newName);
+    // 状態を新しい値に更新
+    state = AsyncValue.data(newName);
+  }
+
+}
+
+
+// AsyncNotifierProviderでUserNotifierを公開
+final checkboxProvider = AsyncNotifierProvider<CheckboxNotifier, String>(() => CheckboxNotifier());
